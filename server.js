@@ -59,7 +59,7 @@ const registerValidation = [
         })
 ];
 
-app.post('/register', registerValidation, async (req, res) => {
+app.post('/api/register', registerValidation, async (req, res) => {
     try {
         // Check for validation errors
         const errors = validationResult(req);
@@ -130,7 +130,7 @@ const loginValidation = [
         .withMessage('Password is required')
 ];
 
-app.post('/login', loginValidation, async (req, res) => {
+app.post('/api/login', loginValidation, async (req, res) => {
     try {
         // Check for validation errors
         const errors = validationResult(req);
@@ -198,7 +198,7 @@ app.post('/login', loginValidation, async (req, res) => {
     }
 });
 
-app.get('/myprofile', middleware, async (req, res) => {
+app.get('/api/myprofile', middleware, async (req, res) => {
     try {
         const user = await Registeruser.findById(req.user.id).select('-password');
         if (!user) {
@@ -222,7 +222,7 @@ app.get('/myprofile', middleware, async (req, res) => {
 });
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
     res.json({
         success: true,
         message: 'Server is running',
@@ -248,7 +248,14 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server running on port ${PORT}`);
+        console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+}
+
+// Export for Vercel
+module.exports = app;

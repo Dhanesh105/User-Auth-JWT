@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { store } from './App';
 import { Redirect } from 'react-router';
+import { API_ENDPOINTS } from './config/api';
 
 const Login = () => {
     const [token, setToken] = useContext(store);
@@ -32,7 +33,7 @@ const Login = () => {
         setMessage('');
 
         try {
-            const response = await axios.post('http://localhost:5000/login', data);
+            const response = await axios.post(API_ENDPOINTS.LOGIN, data);
 
             if (response.data.success) {
                 // Use the enhanced setToken function that handles localStorage

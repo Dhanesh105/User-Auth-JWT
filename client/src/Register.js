@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from './config/api';
 
 const Register = () => {
     const [data, setData] = useState({
@@ -31,7 +32,7 @@ const Register = () => {
         setMessage('');
 
         try {
-            const response = await axios.post('http://localhost:5000/register', data);
+            const response = await axios.post(API_ENDPOINTS.REGISTER, data);
 
             if (response.data.success) {
                 setMessage('Registration successful! You can now login.');

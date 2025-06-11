@@ -3,6 +3,7 @@ import { store } from './App';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import avatar from './avatar.png';
+import { API_ENDPOINTS } from './config/api';
 
 const Myprofile = () => {
     const [token, setToken] = useContext(store);
@@ -14,7 +15,7 @@ const Myprofile = () => {
         try {
             setLoading(true);
             setError('');
-            const response = await axios.get('http://localhost:5000/myprofile', {
+            const response = await axios.get(API_ENDPOINTS.PROFILE, {
                 headers: {
                     'x-token': token
                 }
